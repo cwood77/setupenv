@@ -2,9 +2,12 @@
 #include "cfile.hpp"
 #include "checker.hpp"
 #include "config.hpp"
+#include "envvar.hpp"
 #include "finder.hpp"
 #include "log.hpp"
+#include "split.hpp"
 #include "subobject.hpp"
+#include "vectorset.hpp"
 #include <iostream>
 #include <set>
 
@@ -45,4 +48,8 @@ int main(int, const char *argv[])
    }
 
    log.writeLn("usage: setupenv <cmd.exe> [--verbose]");
+
+   envVar ev;
+   envVarMomento mom(ev,L"PATH");
+   log.writeLn("old path was '%S'",mom.value().c_str());
 }
