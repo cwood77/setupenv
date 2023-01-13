@@ -4,5 +4,5 @@
 void pathAccumulator::add(const std::wstring& path)
 {
    log().writeLn("found path '%S'",path.c_str());
-   paths.insert(path);
+   m_cont.appendIf(path);
 }

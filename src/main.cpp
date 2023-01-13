@@ -36,33 +36,38 @@ int main(int, const char *argv[])
 
    // envvar + momento
    envVar ev;
-   envVarMomento mom(ev,L"PATH");
-   log.writeLn("old path was '%S'",mom.value().c_str());
-
-   // split
-
-   // attach accumulator
-   pathAccumulator paths;
-   paths.tie(fig,log);
-
    {
-      // checker
-      fileChecker checker;
-      checker.tie(fig,nowhere);
+      envVarMomento pathMom(ev,L"PATH");
 
-      // finder
-      folderFinder finder;
-      finder.tie(fig,nowhere);
-      finder.find(checker,paths);
+      // split
+      wivectorSet paths;
+      splitter::split(pathMom.value(),paths);
+
+      // attach accumulator
+      pathAccumulator accum(paths);
+      accum.tie(fig,log);
+
+      {
+         // checker
+         fileChecker checker;
+         checker.tie(fig,nowhere);
+
+         // finder
+         folderFinder finder;
+         finder.tie(fig,nowhere);
+         finder.find(checker,accum);
+      }
+
+      // join
+      auto newPath = splitter::join(paths);
+
+      // update env
+      ev.set(L"PATH",newPath);
+
+      // create process
+
+      // un-momento
    }
-
-   // join
-
-   // update env
-
-   // create process
-
-   // un-momento
 
    log.writeLn("usage: setupenv <cmd.exe> [--verbose]");
 }

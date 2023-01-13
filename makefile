@@ -28,6 +28,7 @@ SETUPENV_SRC = \
 	src/finder.cpp \
 	src/log.cpp \
 	src/main.cpp \
+	src/spawn.cpp \
 	src/split.cpp \
 
 SETUPENV_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(SETUPENV_SRC)))

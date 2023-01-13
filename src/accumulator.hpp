@@ -1,7 +1,6 @@
 #pragma once
 #include "subobject.hpp"
-#include <set>
-#include <string>
+#include "vectorset.hpp"
 
 class iPathAccumulator {
 public:
@@ -10,7 +9,10 @@ public:
 
 class pathAccumulator : public iPathAccumulator, public subobject {
 public:
+   explicit pathAccumulator(iVectorSet<std::wstring>& cont) : m_cont(cont) {}
+
    virtual void add(const std::wstring& path);
 
-   std::set<std::wstring> paths;
+private:
+   iVectorSet<std::wstring>& m_cont;
 };
