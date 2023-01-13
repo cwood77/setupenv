@@ -5,11 +5,14 @@
 #include "envvar.hpp"
 #include "finder.hpp"
 #include "log.hpp"
+#include "spawn.hpp"
 #include "split.hpp"
 #include "subobject.hpp"
 #include "vectorset.hpp"
 #include <iostream>
 #include <set>
+
+static const strConfig kCfgShell("shell",L"cmd.exe");
 
 class configInternal : public iConfigInternal {
 public:
@@ -18,13 +21,11 @@ public:
       return defVal;
    }
 
-   virtual std::string getString(const std::string& name, const std::string& defVal) const
+   virtual std::wstring getString(const std::string& name, const std::wstring& defVal) const
    {
       return defVal;
    }
 };
-
-// TODO add a report concept?  I.e. you now can call these EXEs
 
 int main(int, const char *argv[])
 {
@@ -65,9 +66,12 @@ int main(int, const char *argv[])
       ev.set(L"PATH",newPath);
 
       // create process
+      log.writeLn("---entering nested shell; remember to EXIT to return");
+      spawner spn;
+      spn.tie(fig,log);
+      spn.startAndWait(fig.get(kCfgShell));
+      log.writeLn("---leaving nested shell");
 
       // un-momento
    }
-
-   log.writeLn("usage: setupenv <cmd.exe> [--verbose]");
 }
