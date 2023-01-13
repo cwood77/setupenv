@@ -24,6 +24,8 @@ public:
    }
 };
 
+// TODO add a report concept?  I.e. you now can call these EXEs
+
 int main(int, const char *argv[])
 {
    // basics
@@ -32,7 +34,14 @@ int main(int, const char *argv[])
    config fig(ci);
    nullLog nowhere;
 
-   // accumulator
+   // envvar + momento
+   envVar ev;
+   envVarMomento mom(ev,L"PATH");
+   log.writeLn("old path was '%S'",mom.value().c_str());
+
+   // split
+
+   // attach accumulator
    pathAccumulator paths;
    paths.tie(fig,log);
 
@@ -47,9 +56,13 @@ int main(int, const char *argv[])
       finder.find(checker,paths);
    }
 
-   log.writeLn("usage: setupenv <cmd.exe> [--verbose]");
+   // join
 
-   envVar ev;
-   envVarMomento mom(ev,L"PATH");
-   log.writeLn("old path was '%S'",mom.value().c_str());
+   // update env
+
+   // create process
+
+   // un-momento
+
+   log.writeLn("usage: setupenv <cmd.exe> [--verbose]");
 }
